@@ -22,9 +22,33 @@ var gridLinesY = new Array();
 var gridLinesX = new Array();
 var cells = new Array();
 var cTemp = new Array();
-
+var celBuf = new Array();
 var snakeState = [];
-console.log(snakeState);
+var snakeVel   = [1,0]; //Normal Vector velocities
+
+for(i=0; i<rows; i++)
+{
+  cTemp = new Array();
+  for(j=0; j<cols; j++)
+  {
+    cTemp.push(0);
+  }
+  celBuf.push(cTemp);
+}
+
+console.log(String(celBuf));
+
+function fillCell(X,Y)
+{
+  var gridX = Math.floor(X/cellSize);
+  var gridY = Math.floor(Y/cellSize);
+  animLayer.add(cells[gridY][gridX]);
+  console.log(String([gridX, gridY]))
+}
+
+
+//console.log(snakeState);
+//posDisp.innerHTML = "Hello!"
 //cont.onmousemove = function(e){
 
 //if((e.pageX > 1500) && (e.pageY < 410))
@@ -48,7 +72,33 @@ sBox.style.visibility = "visible";
 
 
 cont.onclick = function(e){
-    alert("Click at: "+ e.pageX + "," + e.pageY);
+  //alert("Click at: "+ e.pageX + "," + e.pageY);
+  //fillCell(e.pageX, e.pageY);
+  //celBuf[Math.floor(e.pageY/cellSize)][Math.floor(e.pageX/cellSize)] ^= 1;
+}
+
+document.onkeypress = function(e){
+  code = e.keyCode;
+
+  switch(code)
+  {
+    case 38:
+      console.log('UP');
+      snakeVel = [0, -1];
+      break;
+    case 40:
+      console.log('Down');
+      snakeVel = [0, 1];
+      break;
+    case 39:
+      console.log('Right');
+      snakeVel = [1, 0];
+      break;
+    case 37:
+      console.log('Left');
+      snakeVel = [-1, 0];
+      break;
+  }
 }
 
 var stage = new Kinetic.Stage({
@@ -60,14 +110,7 @@ var stage = new Kinetic.Stage({
 var animLayer = new Kinetic.Layer();
 var statLayer = new Kinetic.Layer();
 
-var frameRateGraph = new Kinetic.Line(
-  {
-    points: [0,0],
-    stroke: "red",
-    tension: 0,
-    strokeWidth: 2
-  }
-);
+
 
 //Loop to make Y gridlines
 for(i=0; i<rows; i++)
@@ -76,10 +119,10 @@ for(i=0; i<rows; i++)
     new Kinetic.Line(
       {
         points: [0, i*cellSize, wWidth, i*cellSize],
-		    stroke: 'gray',
+		    stroke: 'black',
 		    strokeWidth: 0.8,
 		    lineCap: 'round',
-		    lineJoin: 'round'
+        lineJoin: 'round'
       }
     )
   )
@@ -91,7 +134,7 @@ for(j=0; j<cols; j++)
     new Kinetic.Line(
       {
         points: [j*cellSize, 0, j*cellSize, wHeight],
-        stroke: 'gray',
+        stroke: 'black',
 		    strokeWidth: 0.8,
         lineCap: 'round',
         lineJoin: 'round'
@@ -125,8 +168,8 @@ for(i=0; i<rows; i++)
           y: i*cellSize + 1,
           width: cellSize - 2,
           height: cellSize - 2,
-          fill: 'green',
-          stroke: 'black',
+          fill: '#554a8c',
+          stroke: '#554a8c',
           strokeWidth: 0
         }
       )
@@ -136,6 +179,7 @@ for(i=0; i<rows; i++)
 }
 
 
+animLayer.add(cells[0][0]);
 animLayer.draw();
 statLayer.draw();
 
@@ -143,6 +187,11 @@ statLayer.draw();
 stage.add(animLayer).add(statLayer);
 
 
+//Initialize the snake with an initial position
+snakeState.push([10,10]);
+snakeState.push([11,10]);
+snakeState.push([12,10]);
+console.log(String(snakeState));
 
 //This is the code where all the stuff that updates
 //in the next animation frame happens.
@@ -150,11 +199,23 @@ var anim = new Kinetic.Animation(function(frame){
   var time = frame.time,
       timeDIff = frame.timeDiff,
       frameRate = frame.frameRate;
-  var graphPoints = frameRateGraph.getPoints();
-  var xTime = Math.floor(time*0.3);
+  var xTime = Math.floor(time/1000);
+
   //update stuff
+  //posDisp.innerHTML = "Framerate: "+frameRate;
+  if(xTime>prevTBase)
+  {
+    snakeState.push([(snakeState[snakeState.length - 1][0]) + snakeVel[0], (snakeState[snakeState.length - 1][1]) + snakeVel[1]]);
+    var rem = snakeState.shift();
+    cells[rem[1]][rem[0]].remove();
+  }
 
+  for(i=0; i<snakeState.length; i++)
+  {
+    animLayer.add(cells[snakeState[i][1]][snakeState[i][0]]);
+  }
 
+  prevTBase = xTime;
 
 }, animLayer);
 
