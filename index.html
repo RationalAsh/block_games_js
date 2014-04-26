@@ -1,11 +1,38 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
+  <head>
+    <title>
+      Game of Life implemented (eventually) in Javascript
+    </title>
+      <link rel="shortcut icon"  href="media/favicon.ico">
+      <link rel="stylesheet" type="text/css" href="styles/style.css">
+  </head>
+  <body>
+    <div id="container"></div>
 
-<head>
-</head>
+    <div id="SettingsBox">
 
-<body>
-<h1> Hello World!! </h1>
-</body>
+<p id="cDrag">Controls</p>
+<p id="mPos"> X: 0, Y: 0 </p>
+<h3>What does this page do?</h3>
+<p>
 
+Well it keeps changing. I'm just using this as a sort of learning ground for
+my kineticJS animations. So whatever this page does currently will be displayed
+here.
+
+At the moment it displays a graph of the framerate over time.
+
+I just wanted to see how efficient my animations are. It'll have the game of
+life simulation. Eventually.
+
+</p>
+
+    </div>
+
+      <script src="scripts/kinetic-v5.1.0.min.js"></script>
+      <script defer="defer" src="scripts/script.js">
+
+    </script>
+  </body>
 </html>

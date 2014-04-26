@@ -1,0 +1,49 @@
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+#container {
+    position: absolute;
+    z-index: 0;
+}
+
+#SettingsBox {
+    width: 400px;
+    height: 400px;
+    z-index:-1;
+    align: left;
+
+    border: 2px solid black;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background-color: lightgrey;
+
+    -moz-box-shadow:    3px 3px 5px 6px #ccc;
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+    box-shadow:         3px 3px 5px 6px #ccc;
+
+    opacity: 0.1;
+
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+#cDrag {
+    position: relative;
+    padding-top: 10px;
+    margin-left: 40%;
+    margin-right: auto;
+    margin-top: auto;
+
+    font-size: 20px;
+    font-family: "Verdana", Verdana, sans-serif;
+}
