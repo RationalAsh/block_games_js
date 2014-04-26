@@ -77,7 +77,7 @@ cont.onclick = function(e){
   //celBuf[Math.floor(e.pageY/cellSize)][Math.floor(e.pageX/cellSize)] ^= 1;
 }
 
-document.onkeypress = function(e){
+document.onkeydown = function(e){
   code = e.keyCode;
 
   switch(code)
