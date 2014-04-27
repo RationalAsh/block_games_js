@@ -220,7 +220,7 @@ var anim = new Kinetic.Animation(function(frame){
   var time = frame.time,
       timeDIff = frame.timeDiff,
       frameRate = frame.frameRate;
-  var xTime = Math.floor(time/1000);
+  var xTime = Math.floor(time/300);
 
   //update stuff
   //posDisp.innerHTML = "Framerate: "+frameRate;
@@ -230,25 +230,19 @@ var anim = new Kinetic.Animation(function(frame){
   if(xTime>prevTBase)
   {
     snakeState.push([(snakeState[snakeState.length - 1][0]) + snakeVel[0], (snakeState[snakeState.length - 1][1]) + snakeVel[1]]);
-    //remove the tail only if the snake hasn't eaten a dot
-    if(!eatFlag)
-    {
-      var rem = snakeState.shift();
-      cells[rem[1]][rem[0]].remove();
-    }
-    else
-    {
-      eatFlag = 0;
-      swallowed.shift(); //Remove the dot from swallowed queue
-    }
+    
+    var rem = snakeState.shift();
+    cells[rem[1]][rem[0]].remove();
 
     //If head is at a dot add the dot to the list of swallowedstuff
-    if((snakeState[snakeState.length-1][0]==dotPos[0])&&(snakeState[snakeState.length-1][1]==dotPos[1]))
+    if((snakeState[snakeState.length-1][0]==dotPos[1])&&(snakeState[snakeState.length-1][1]==dotPos[0]))
     {
       swallowed.push(dotPos);
       dotPos = [Math.floor(Math.random() * rows), Math.floor(Math.random() * cols)];
-      console.log(String(dotPos));
+      console.log('Head: '+String(dotPos));
+      snakeState.unshift(swallowed.shift());
     }
+    
 
     //Checking if tail is at a dot
     //This works because if the snake enters a dot then the
@@ -257,7 +251,8 @@ var anim = new Kinetic.Animation(function(frame){
     {
       //Eat the dot and grow longer
       //I'll try adding the new dot at the end of the snake for now.
-      eatFlag = 1;
+      //eatFlag = 1;
+      //console.log('Tail at dot');
     }
 
     for(i=0; i<snakeState.length; i++)
