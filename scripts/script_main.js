@@ -9,9 +9,15 @@ var sBox = document.getElementById('SettingsBox');
 var posDisp = document.getElementById('mPos');
 var mpFlag = 0;
 var prevTBase = 0;
+var eatFlag = 0;
 
-var wHeight = screen.availHeight;
-var wWidth  = screen.availWidth;
+//var wHeight = screen.availHeight;
+//var wWidth  = screen.availWidth;
+
+var wHeight = window.innerHeight - 3;
+var wWidth  = window.innerWidth - 5;
+//alert(wHeight);
+//alert(wWidth);
 
 var i=0;
 var j=0;
@@ -23,8 +29,11 @@ var gridLinesX = new Array();
 var cells = new Array();
 var cTemp = new Array();
 var celBuf = new Array();
+var dotBuf = new Array();
 var snakeState = [];
 var snakeVel   = [1,0]; //Normal Vector velocities
+var dotPos = [5,5];
+var swallowed = new Array();
 
 for(i=0; i<rows; i++)
 {
@@ -34,9 +43,21 @@ for(i=0; i<rows; i++)
     cTemp.push(0);
   }
   celBuf.push(cTemp);
+  dotBuf.push(cTemp);
 }
 
-console.log(String(celBuf));
+function clearBuf(array)
+{
+  for(i=0; i<rows; i++)
+  {
+    for(j=0; j<cols; j++)
+    {
+      array[i][j] = 0;
+    }
+  }
+}
+
+//console.log(String(celBuf));
 
 function fillCell(X,Y)
 {
@@ -119,9 +140,9 @@ for(i=0; i<rows; i++)
     new Kinetic.Line(
       {
         points: [0, i*cellSize, wWidth, i*cellSize],
-		    stroke: 'black',
-		    strokeWidth: 0.8,
-		    lineCap: 'round',
+	stroke: 'black',
+	strokeWidth: 0.8,
+	lineCap: 'round',
         lineJoin: 'round'
       }
     )
@@ -135,7 +156,7 @@ for(j=0; j<cols; j++)
       {
         points: [j*cellSize, 0, j*cellSize, wHeight],
         stroke: 'black',
-		    strokeWidth: 0.8,
+	strokeWidth: 0.8,
         lineCap: 'round',
         lineJoin: 'round'
       }
@@ -179,7 +200,7 @@ for(i=0; i<rows; i++)
 }
 
 
-animLayer.add(cells[0][0]);
+//animLayer.add(cells[0][0]);
 animLayer.draw();
 statLayer.draw();
 
@@ -203,17 +224,56 @@ var anim = new Kinetic.Animation(function(frame){
 
   //update stuff
   //posDisp.innerHTML = "Framerate: "+frameRate;
+
+  //If one second has passed change the snake to move in the 
+  //Direction specified by the snakeVel var
   if(xTime>prevTBase)
   {
     snakeState.push([(snakeState[snakeState.length - 1][0]) + snakeVel[0], (snakeState[snakeState.length - 1][1]) + snakeVel[1]]);
-    var rem = snakeState.shift();
-    cells[rem[1]][rem[0]].remove();
+    //remove the tail only if the snake hasn't eaten a dot
+    if(!eatFlag)
+    {
+      var rem = snakeState.shift();
+      cells[rem[1]][rem[0]].remove();
+    }
+    else
+    {
+      eatFlag = 0;
+      swallowed.shift(); //Remove the dot from swallowed queue
+    }
+
+    //If head is at a dot add the dot to the list of swallowedstuff
+    if((snakeState[snakeState.length-1][0]==dotPos[0])&&(snakeState[snakeState.length-1][1]==dotPos[1]))
+    {
+      swallowed.push(dotPos);
+      dotPos = [Math.floor(Math.random() * rows), Math.floor(Math.random() * cols)];
+      console.log(String(dotPos));
+    }
+
+    //Checking if tail is at a dot
+    //This works because if the snake enters a dot then the
+    //Whole body has to pass through the dot.
+    if((snakeState[0][0]==swallowed[0])&&(snakeState[0][0]==swallowed[1]))
+    {
+      //Eat the dot and grow longer
+      //I'll try adding the new dot at the end of the snake for now.
+      eatFlag = 1;
+    }
+
+    for(i=0; i<snakeState.length; i++)
+    {
+      animLayer.add(cells[snakeState[i][1]][snakeState[i][0]]);
+    }
+    animLayer.add(cells[dotPos[0]][dotPos[1]]);
+
   }
 
-  for(i=0; i<snakeState.length; i++)
-  {
-    animLayer.add(cells[snakeState[i][1]][snakeState[i][0]]);
-  }
+  //If the eatFlag was set in the previous frame
+  //Then make the tail longer in this one.
+  //if(eatFlag == 1)
+  //{
+  //  snakeState.unshift([][])
+  //}
 
   prevTBase = xTime;
 

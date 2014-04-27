@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>
+     Block Games
+    </title>
+      <link rel="shortcut icon"  href="media/favicon.ico">
+      <link rel="stylesheet" type="text/css" href="styles/style.css">
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <div id="SettingsBox">
+
+<p id="cDrag">Controls</p>
+<p id="mPos"> X: 0, Y: 0 </p>
+<h3>What does this page do?</h3>
+<p>
+
+Well it keeps changing. I'm just using this as a sort of learning ground for
+my kineticJS animations. So whatever this page does currently will be displayed
+here.
+
+At the moment it has a classic snake which you can move around using your arrow keys.
+
+I haven't added in the game mechanics for making the snake grow longer when it eats a dot yet.
+In fact, there are no game mechanics at the moment apart from it responding to the arrow keys.
+
+But it'll be there soon. :)
+
+</p>
+
+    </div>
+
+      <script src="scripts/kinetic-v5.1.0.min.js"></script>
+      <script defer="defer" src="scripts/script_main.js">
+
+    </script>
+  </body>
+</html>

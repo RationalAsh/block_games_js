@@ -6,6 +6,8 @@ body {
 #container {
     position: absolute;
     z-index: 0;
+    border: 1px solid gray;
+    
 }
 
 #SettingsBox {
