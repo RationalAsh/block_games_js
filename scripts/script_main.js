@@ -7,9 +7,11 @@ var cellSize = 20;
 var cont = document.getElementById('container');
 var sBox = document.getElementById('SettingsBox');
 var posDisp = document.getElementById('mPos');
+var scoreBoard = document.getElementById('score');
 var mpFlag = 0;
 var prevTBase = 0;
 var eatFlag = 0;
+var score = 0;
 
 //var wHeight = screen.availHeight;
 //var wWidth  = screen.availWidth;
@@ -237,10 +239,12 @@ var anim = new Kinetic.Animation(function(frame){
     //If head is at a dot add the dot to the list of swallowedstuff
     if((snakeState[snakeState.length-1][0]==dotPos[1])&&(snakeState[snakeState.length-1][1]==dotPos[0]))
     {
+      score += 5;
       swallowed.push(dotPos);
       dotPos = [Math.floor(Math.random() * rows), Math.floor(Math.random() * cols)];
       console.log('Head: '+String(dotPos));
       snakeState.unshift(swallowed.shift());
+      scoreBoard.innerHTML = 'Score: '+String(score);      
     }
     
 
