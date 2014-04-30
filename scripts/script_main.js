@@ -237,7 +237,8 @@ var anim = new Kinetic.Animation(function(frame){
     var rem = snakeState.shift();
     cells[rem[1]][rem[0]].remove();
 
-    //If head is at a dot add the dot to the list of swallowedstuff
+    //If head is at a dot add the dot to the list of swallowedstuff and add
+    //Dot to end of snake
     if((snakeState[snakeState.length-1][0]==dotPos[1])&&(snakeState[snakeState.length-1][1]==dotPos[0]))
     {
       score += 5;
