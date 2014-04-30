@@ -74,6 +74,7 @@ function fillCell(X,Y)
 //posDisp.innerHTML = "Hello!"
 //cont.onmousemove = function(e){
 
+//Make box visible on hover
 //if((e.pageX > 1500) && (e.pageY < 410))
 //    {
 //	sBox.style.opacity = 0.8;
@@ -241,7 +242,7 @@ var anim = new Kinetic.Animation(function(frame){
     {
       score += 5;
       swallowed.push(dotPos);
-      dotPos = [Math.floor(Math.random() * rows), Math.floor(Math.random() * cols)];
+      dotPos = [Math.floor(Math.random() * (rows-30)), Math.floor(Math.random() * (cols-20))];
       console.log('Head: '+String(dotPos));
       snakeState.unshift(swallowed.shift());
       scoreBoard.innerHTML = 'Score: '+String(score);      
@@ -267,31 +268,8 @@ var anim = new Kinetic.Animation(function(frame){
 
   }
 
-  //If the eatFlag was set in the previous frame
-  //Then make the tail longer in this one.
-  //if(eatFlag == 1)
-  //{
-  //  snakeState.unshift([][])
-  //}
-
   prevTBase = xTime;
 
 }, animLayer);
 
 anim.start();
-
-//var tween = new Kinetic.Tween(
-//    {
-//	node: rect,
-//	duration: 0.3,
-//	x: 500,
-//	y: 200,
-//	rotation: 0,
-//	opacity: 0.9,
-//	scaleX: 0,
-//	scaleY: 0,
-//	easing: Kinetic.Easings.StrongEaseOut,
-  //  }
-//);
-//
-//tween.play();
