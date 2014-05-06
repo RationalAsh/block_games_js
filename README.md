@@ -9,7 +9,7 @@ To see the website in action, go here: http://rationalash.github.io/block_games_
 List of features to implement:
 
  * Game over when snake runs into itself
- * Game over when snake runs into wall
+ * Game over when snake runs into wall [DONE]
  * New level when score reaches a certain threshold
  * Options to pause and continue the game
  * Options to change the speed of the snake

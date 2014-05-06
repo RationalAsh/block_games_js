@@ -260,10 +260,18 @@ var anim = new Kinetic.Animation(function(frame){
       //eatFlag = 1;
       //console.log('Tail at dot');
     }
-
-    for(i=0; i<snakeState.length; i++)
+    if(((snakeState[snakeState.length - 1][1] < rows)&&(snakeState[snakeState.length - 1][0] < cols)&&
+       (snakeState[snakeState.length - 1][1] >= 0)    &&(snakeState[snakeState.length - 1][0] >= 0)))
     {
-      animLayer.add(cells[snakeState[i][1]][snakeState[i][0]]);
+      for(i=0; i<snakeState.length; i++)
+      {
+        animLayer.add(cells[snakeState[i][1]][snakeState[i][0]]);
+      }
+    }
+    else
+    {
+      //alert("Game over!");
+      posDisp.innerHTML = "GAME OVER!";
     }
     animLayer.add(cells[dotPos[0]][dotPos[1]]);
 
